@@ -1,8 +1,8 @@
-/** 
+/**
   @file GASelector.h
   @brief pick genomes from a population.
 
-  @author Matthew Wall 
+  @author Matthew Wall
   @date 10-Aug-1994
 
   Copyright (c) 1995 Massachusetts Institute of Technology, all rights reserved.
@@ -43,13 +43,13 @@ RouletteWheel - weighted selection where individuals with better fitness have
 #ifndef _ga_selector_h_
 #define _ga_selector_h_
 
-#include <string.h>
 #include <ga/gaid.h>
+#include <string.h>
 
 class GAGenome;
 class GAPopulation;
 
-/** 
+/**
    The base class definition for the selector object defines the interface.
 Any derived selector must define a clone member and a select member.  If you
 add any special data members then you should also define a copy member.
@@ -58,47 +58,32 @@ base selector provides the mechanism for this.  Derived classes can use it if
 they want to, or ignore it.
 */
 
-class GASelectionScheme  : public GAID
-{
-public:
-
+class GASelectionScheme : public GAID {
+  public:
     enum { RAW, SCALED };
 
-    GASelectionScheme(int w = SCALED)
-    {
-        which = w;
-    }
-    GASelectionScheme(const GASelectionScheme& orig)
-    {
-        copy(orig);
-    }
-    GASelectionScheme& operator=(const GASelectionScheme& orig)
-    {
-        if(&orig != this)
-        {
+    GASelectionScheme(int w = SCALED) { which = w; }
+    GASelectionScheme(const GASelectionScheme &orig) { copy(orig); }
+    GASelectionScheme &operator=(const GASelectionScheme &orig) {
+        if (&orig != this) {
             copy(orig);
         }
         return *this;
     }
     virtual ~GASelectionScheme() {}
-    virtual GASelectionScheme* clone() const = 0;
-    virtual void copy(const GASelectionScheme& orig)
-    {
+    virtual GASelectionScheme *clone() const = 0;
+    virtual void copy(const GASelectionScheme &orig) {
         pop = orig.pop;
         which = orig.which;
     }
-    virtual void assign(GAPopulation& p)
-    {
-        pop = &p;
-    }
+    virtual void assign(GAPopulation &p) { pop = &p; }
     virtual void update() {}
-    virtual GAGenome& select() const = 0;
+    virtual GAGenome &select() const = 0;
 
-protected:
-    GAPopulation* pop;
-    int which;			/// should we use fitness or objective scores?
+  protected:
+    GAPopulation *pop;
+    int which; /// should we use fitness or objective scores?
 };
-
 
 /** -
    The rank selector simply picks the best individual in the population.  You
@@ -106,280 +91,226 @@ can specify whether the selector should use the raw (objective) scores or the
 scaled (fitness) scores to determine the best individual.  Default is fitness.
 */
 #if USE_RANK_SELECTOR == 1
-class GARankSelector : public GASelectionScheme
-{
-public:
-
+class GARankSelector : public GASelectionScheme {
+  public:
     GARankSelector(int w = GASelectionScheme::SCALED) : GASelectionScheme(w) {}
-    GARankSelector(const GARankSelector& orig)
-    {
+    GARankSelector(const GARankSelector &orig) : GASelectionScheme(orig) {
         copy(orig);
     }
-    GARankSelector& operator=(const GASelectionScheme& orig)
-    {
-        if(&orig != this)
-        {
+    GARankSelector &operator=(const GASelectionScheme &orig) {
+        if (&orig != this) {
             copy(orig);
         }
         return *this;
     }
     virtual ~GARankSelector() {}
-    virtual GASelectionScheme* clone() const
-    {
-        return new GARankSelector;
-    }
-    virtual GAGenome& select() const;
+    virtual GASelectionScheme *clone() const { return new GARankSelector; }
+    virtual GAGenome &select() const;
 };
 #endif
 
-
-/** 
+/**
    Roulette wheel uses a fitness-proportional algorithm for selecting
 individuals.
 */
 #if USE_ROULETTE_SELECTOR == 1 || USE_TOURNAMENT_SELECTOR == 1
-class GARouletteWheelSelector : public GASelectionScheme
-{
-public:
-GARouletteWheelSelector(int w = GASelectionScheme::SCALED) :
-        GASelectionScheme(w)
-    {
-        psum = (float*)0;
+class GARouletteWheelSelector : public GASelectionScheme {
+  public:
+    GARouletteWheelSelector(int w = GASelectionScheme::SCALED)
+        : GASelectionScheme(w) {
+        psum = (float *)0;
         n = 0;
     }
-    GARouletteWheelSelector(const GARouletteWheelSelector& orig)
-    {
-        psum = (float*)0;
+    GARouletteWheelSelector(const GARouletteWheelSelector &orig)
+        : GASelectionScheme(orig) {
+        psum = (float *)0;
         n = 0;
         copy(orig);
     }
-    GARouletteWheelSelector& operator=(const GASelectionScheme& orig)
-    {
-        if(&orig != this)
-        {
+    GARouletteWheelSelector &operator=(const GASelectionScheme &orig) {
+        if (&orig != this) {
             copy(orig);
         }
         return *this;
     }
-    virtual ~GARouletteWheelSelector()
-    {
-        delete [] psum;
-    }
-    virtual GASelectionScheme* clone() const
-    {
+    virtual ~GARouletteWheelSelector() { delete[] psum; }
+    virtual GASelectionScheme *clone() const {
         return new GARouletteWheelSelector;
     }
-    virtual void copy(const GASelectionScheme& orig)
-    {
+    virtual void copy(const GASelectionScheme &orig) {
         GASelectionScheme::copy(orig);
-        const GARouletteWheelSelector& sel =
-            DYN_CAST(const GARouletteWheelSelector&, orig);
-        delete [] psum;
+        const GARouletteWheelSelector &sel =
+            DYN_CAST(const GARouletteWheelSelector &, orig);
+        delete[] psum;
         n = sel.n;
         psum = new float[n];
         memcpy(psum, sel.psum, n * sizeof(float));
     }
-    virtual GAGenome& select() const;
+    virtual GAGenome &select() const;
     virtual void update();
 
-protected:
+  protected:
     int n;
-    float* psum;
+    float *psum;
 };
 #endif
 
-
-/** 
+/**
    This version of the tournament selector does two roulette wheel selections
 then picks the better of the two.  We derive from the roulette wheel class so
 that we can use its update method.
 */
 #if USE_TOURNAMENT_SELECTOR == 1
-class GATournamentSelector : public GARouletteWheelSelector
-{
-public:
-GATournamentSelector(int w = GASelectionScheme::SCALED) :
-        GARouletteWheelSelector(w) {}
-    GATournamentSelector(const GATournamentSelector& orig)
-    {
+class GATournamentSelector : public GARouletteWheelSelector {
+  public:
+    GATournamentSelector(int w = GASelectionScheme::SCALED)
+        : GARouletteWheelSelector(w) {}
+    GATournamentSelector(const GATournamentSelector &orig)
+        : GARouletteWheelSelector(orig) {
         copy(orig);
     }
-    GATournamentSelector& operator=(const GASelectionScheme& orig)
-    {
-        if(&orig != this)
-        {
+    GATournamentSelector &operator=(const GASelectionScheme &orig) {
+        if (&orig != this) {
             copy(orig);
         }
         return *this;
     }
     virtual ~GATournamentSelector() {}
-    virtual GASelectionScheme* clone() const
-    {
+    virtual GASelectionScheme *clone() const {
         return new GATournamentSelector;
     }
-    virtual GAGenome& select() const;
+    virtual GAGenome &select() const;
 };
 #endif
 
-
-
-/** 
+/**
    Stochastic uniform sampling selection.  This is just a fancy name for
 random sampling.  Any individual in the population has as much chance of being
 selected as any other.
 */
 #if USE_UNIFORM_SELECTOR == 1
-class GAUniformSelector : public GASelectionScheme
-{
-public:
-GAUniformSelector(int w = GASelectionScheme::SCALED) : GASelectionScheme(w) { }
-    GAUniformSelector(const GAUniformSelector& orig)
-    {
+class GAUniformSelector : public GASelectionScheme {
+  public:
+    GAUniformSelector(int w = GASelectionScheme::SCALED)
+        : GASelectionScheme(w) {}
+    GAUniformSelector(const GAUniformSelector &orig) : GASelectionScheme(orig) {
         copy(orig);
     }
-    GAUniformSelector& operator=(const GASelectionScheme& orig)
-    {
-        if(&orig != this)
-        {
+    GAUniformSelector &operator=(const GASelectionScheme &orig) {
+        if (&orig != this) {
             copy(orig);
         }
         return *this;
     }
-    virtual ~GAUniformSelector() { }
-    virtual GASelectionScheme* clone() const
-    {
-        return new GAUniformSelector;
-    }
-    virtual GAGenome& select() const;
+    virtual ~GAUniformSelector() {}
+    virtual GASelectionScheme *clone() const { return new GAUniformSelector; }
+    virtual GAGenome &select() const;
 };
 #endif
 
-
-/** 
+/**
    Stochastic remainder sampling selection.
 */
 #if USE_SRS_SELECTOR == 1
-class GASRSSelector : public GASelectionScheme
-{
-public:
-GASRSSelector(int w = GASelectionScheme::SCALED) : GASelectionScheme(w)
-    {
-        fraction = (float*)0;
+class GASRSSelector : public GASelectionScheme {
+  public:
+    GASRSSelector(int w = GASelectionScheme::SCALED) : GASelectionScheme(w) {
+        fraction = (float *)0;
         choices = (unsigned int *)0;
         n = 0;
     }
-    GASRSSelector(const GASRSSelector& orig)
-    {
-        fraction = (float*)0;
+    GASRSSelector(const GASRSSelector &orig) : GASelectionScheme(orig) {
+        fraction = (float *)0;
         choices = (unsigned int *)0;
         n = 0;
         copy(orig);
     }
-    GASRSSelector& operator=(const GASelectionScheme& orig)
-    {
-        if(&orig != this)
-        {
+    GASRSSelector &operator=(const GASelectionScheme &orig) {
+        if (&orig != this) {
             copy(orig);
         }
         return *this;
     }
-    virtual ~GASRSSelector()
-    {
-        delete [] fraction;
-        delete [] choices;
+    virtual ~GASRSSelector() {
+        delete[] fraction;
+        delete[] choices;
     }
-    virtual GASelectionScheme* clone() const
-    {
-        return new GASRSSelector;
-    }
-    virtual void copy(const GASelectionScheme& orig)
-    {
+    virtual GASelectionScheme *clone() const { return new GASRSSelector; }
+    virtual void copy(const GASelectionScheme &orig) {
         GASelectionScheme::copy(orig);
-        const GASRSSelector& sel = DYN_CAST(const GASRSSelector&, orig);
-        delete [] fraction;
-        delete [] choices;
+        const GASRSSelector &sel = DYN_CAST(const GASRSSelector &, orig);
+        delete[] fraction;
+        delete[] choices;
         n = sel.n;
-        fraction = new float [n];
-        choices = new unsigned int [n];
+        fraction = new float[n];
+        choices = new unsigned int[n];
         memcpy(fraction, sel.fraction, n * sizeof(float));
         memcpy(choices, sel.choices, n * sizeof(unsigned int));
     }
-    virtual GAGenome& select() const;
+    virtual GAGenome &select() const;
     virtual void update();
 
-protected:
+  protected:
     float *fraction;
     unsigned int *choices;
     unsigned int n;
 };
 #endif
 
-
-/** 
+/**
    Deterministic sampling selection.
 */
 #if USE_DS_SELECTOR == 1
-class GADSSelector : public GASelectionScheme
-{
-public:
-GADSSelector(int w = GASelectionScheme::SCALED) : GASelectionScheme(w)
-    {
-        fraction = (float*)0;
+class GADSSelector : public GASelectionScheme {
+  public:
+    GADSSelector(int w = GASelectionScheme::SCALED) : GASelectionScheme(w) {
+        fraction = (float *)0;
         choices = (unsigned int *)0;
         idx = (unsigned int *)0;
         n = 0;
     }
-    GADSSelector(const GADSSelector& orig)
-    {
-        fraction = (float*)0;
+    GADSSelector(const GADSSelector &orig) : GASelectionScheme(orig) {
+        fraction = (float *)0;
         choices = (unsigned int *)0;
         idx = (unsigned int *)0;
         n = 0;
         copy(orig);
     }
-    GADSSelector& operator=(const GASelectionScheme& orig)
-    {
-        if(&orig != this)
-        {
+    GADSSelector &operator=(const GASelectionScheme &orig) {
+        if (&orig != this) {
             copy(orig);
         }
         return *this;
     }
-    virtual ~GADSSelector()
-    {
-        delete [] fraction;
-        delete [] choices;
-        delete [] idx;
+    virtual ~GADSSelector() {
+        delete[] fraction;
+        delete[] choices;
+        delete[] idx;
     }
-    virtual GASelectionScheme* clone() const
-    {
-        return new GADSSelector;
-    }
-    virtual void copy(const GASelectionScheme& orig)
-    {
+    virtual GASelectionScheme *clone() const { return new GADSSelector; }
+    virtual void copy(const GASelectionScheme &orig) {
         GASelectionScheme::copy(orig);
-        const GADSSelector& sel = DYN_CAST(const GADSSelector&, orig);
-        delete [] fraction;
-        delete [] choices;
-        delete [] idx;
+        const GADSSelector &sel = DYN_CAST(const GADSSelector &, orig);
+        delete[] fraction;
+        delete[] choices;
+        delete[] idx;
         n = sel.n;
-        fraction = new float [n];
-        choices = new unsigned int [n];
-        idx = new unsigned int [n];
+        fraction = new float[n];
+        choices = new unsigned int[n];
+        idx = new unsigned int[n];
         memcpy(fraction, sel.fraction, n * sizeof(float));
         memcpy(choices, sel.choices, n * sizeof(unsigned int));
         memcpy(idx, sel.idx, n * sizeof(unsigned int));
     }
-    virtual GAGenome& select() const;
+    virtual GAGenome &select() const;
     virtual void update();
 
-protected:
+  protected:
     float *fraction;
     unsigned int *choices;
     unsigned int *idx;
     unsigned int n;
 };
 #endif
-
 
 #endif

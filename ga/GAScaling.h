@@ -1,8 +1,8 @@
-/** 
+/**
   @file GAScaling.h
   @brief This is the GAScaling class.  It is used to do scaling on a population.
 
-  @author Matthew Wall  
+  @author Matthew Wall
   @date 10-Aug-1994
 
   Copyright (c) 1995 Massachusetts Institute of Technology, all rights reserved.
@@ -21,10 +21,10 @@ it does know how to update itself, but it must be told when.
 #ifndef _ga_scaling_h_
 #define _ga_scaling_h_
 
+#include <ga/GAGenome.h>
 #include <ga/gaconfig.h>
 #include <ga/gaid.h>
 #include <ga/gatypes.h>
-#include <ga/GAGenome.h>
 
 class GAPopulation;
 
@@ -32,7 +32,6 @@ extern float gaDefLinearScalingMultiplier;
 extern float gaDefSigmaTruncationMultiplier;
 extern float gaDefPowerScalingFactor;
 extern float gaDefSharingCutoff;
-
 
 /** ------------------
   @brief Scaling
@@ -44,46 +43,32 @@ that the scaling object might need to do its thing.  The simplest scalings
 don't store any data.
 */
 
-class GAScalingScheme : public GAID
-{
-public:
-GAScalingScheme() {}
-    GAScalingScheme(const GAScalingScheme& s)
-    {
-        copy(s);
-    }
-    GAScalingScheme& operator=(const GAScalingScheme& s)
-    {
+class GAScalingScheme : public GAID {
+  public:
+    GAScalingScheme() {}
+    GAScalingScheme(const GAScalingScheme &s) { copy(s); }
+    GAScalingScheme &operator=(const GAScalingScheme &s) {
         copy(s);
         return *this;
     }
-    virtual ~GAScalingScheme() { }
-    virtual GAScalingScheme * clone() const = 0;
+    virtual ~GAScalingScheme() {}
+    virtual GAScalingScheme *clone() const = 0;
     virtual void copy(const GAScalingScheme &) {}
-    virtual void evaluate(const GAPopulation & p) = 0;
+    virtual void evaluate(const GAPopulation &p) = 0;
 };
-
 
 /** ------------------
 NoScaling
 */
-class GANoScaling : public GAScalingScheme
-{
-public:
-GANoScaling() : GAScalingScheme() {}
+class GANoScaling : public GAScalingScheme {
+  public:
+    GANoScaling() : GAScalingScheme() {}
     GANoScaling(const GANoScaling &) : GAScalingScheme() {}
-    GANoScaling& operator=(const GAScalingScheme&)
-    {
-        return *this;
-    }
+    GANoScaling &operator=(const GAScalingScheme &) { return *this; }
     virtual ~GANoScaling() {}
-    virtual GAScalingScheme * clone() const
-    {
-        return new GANoScaling(*this);
-    }
-    virtual void evaluate(const GAPopulation & p);
+    virtual GAScalingScheme *clone() const { return new GANoScaling(*this); }
+    virtual void evaluate(const GAPopulation &p);
 };
-
 
 /** ------------------
 LinearScaling
@@ -91,49 +76,35 @@ LinearScaling
   This scaling object does linear scaling as described in goldberg pp 122-124.
 */
 #if USE_LINEAR_SCALING == 1
-class GALinearScaling : public GAScalingScheme
-{
-public:
-GALinearScaling(float fm = gaDefLinearScalingMultiplier)
-    {
-        multiplier(fm);
-    }
-    GALinearScaling(const GALinearScaling & arg)
-    {
+class GALinearScaling : public GAScalingScheme {
+  public:
+    GALinearScaling(float fm = gaDefLinearScalingMultiplier) { multiplier(fm); }
+    GALinearScaling(const GALinearScaling &arg) : GAScalingScheme(arg) {
         copy(arg);
     }
-    GALinearScaling & operator=(const GAScalingScheme & arg)
-    {
+    GALinearScaling &operator=(const GAScalingScheme &arg) {
         copy(arg);
-        return(*this);
+        return (*this);
     }
     virtual ~GALinearScaling() {}
-    virtual GAScalingScheme * clone() const
-    {
+    virtual GAScalingScheme *clone() const {
         return new GALinearScaling(*this);
     }
-    virtual void evaluate(const GAPopulation & p);
-    virtual void copy(const GAScalingScheme & arg)
-    {
-        if(&arg != this)
-        {
+    virtual void evaluate(const GAPopulation &p);
+    virtual void copy(const GAScalingScheme &arg) {
+        if (&arg != this) {
             GAScalingScheme::copy(arg);
-            c = (DYN_CAST(const GALinearScaling&, arg)).c;
+            c = (DYN_CAST(const GALinearScaling &, arg)).c;
         }
     }
 
     float multiplier(float fm);
-    float multiplier() const
-    {
-        return c;
-    }
+    float multiplier() const { return c; }
 
-protected:
-    float c;			/// linear scaling multiplier
+  protected:
+    float c; /// linear scaling multiplier
 };
 #endif
-
-
 
 /** ------------------
 SigmaTruncationScaling
@@ -141,49 +112,38 @@ SigmaTruncationScaling
   This scaling object does sigma truncation as defined in goldberg p124.
 */
 #if USE_SIGMA_TRUNC_SCALING == 1
-class GASigmaTruncationScaling : public GAScalingScheme
-{
-public:
-GASigmaTruncationScaling(float m = gaDefSigmaTruncationMultiplier)
-    {
+class GASigmaTruncationScaling : public GAScalingScheme {
+  public:
+    GASigmaTruncationScaling(float m = gaDefSigmaTruncationMultiplier) {
         multiplier(m);
     }
-    GASigmaTruncationScaling(const GASigmaTruncationScaling & arg)
-    {
+    GASigmaTruncationScaling(const GASigmaTruncationScaling &arg)
+        : GAScalingScheme(arg) {
         copy(arg);
     }
-    GASigmaTruncationScaling & operator=(const GAScalingScheme & arg)
-    {
+    GASigmaTruncationScaling &operator=(const GAScalingScheme &arg) {
         copy(arg);
-        return(*this);
+        return (*this);
     }
     virtual ~GASigmaTruncationScaling() {}
-    virtual GAScalingScheme * clone() const
-    {
+    virtual GAScalingScheme *clone() const {
         return new GASigmaTruncationScaling(*this);
     }
-    virtual void evaluate(const GAPopulation & p);
-    virtual void copy(const GAScalingScheme & arg)
-    {
-        if(&arg != this)
-        {
+    virtual void evaluate(const GAPopulation &p);
+    virtual void copy(const GAScalingScheme &arg) {
+        if (&arg != this) {
             GAScalingScheme::copy(arg);
-            c = (DYN_CAST(const GASigmaTruncationScaling&, arg)).c;
+            c = (DYN_CAST(const GASigmaTruncationScaling &, arg)).c;
         }
     }
 
     float multiplier(float fm);
-    float multiplier() const
-    {
-        return c;
-    }
+    float multiplier() const { return c; }
 
-protected:
-    float c;			/// std deviation multiplier
+  protected:
+    float c; /// std deviation multiplier
 };
 #endif
-
-
 
 /** ------------------
 PowerLawScaling
@@ -191,52 +151,35 @@ PowerLawScaling
   This scaling object does power law scaling as defined in goldberg p124.
 */
 #if USE_POWER_LAW_SCALING == 1
-class GAPowerLawScaling : public GAScalingScheme
-{
-public:
-GAPowerLawScaling(float f = gaDefPowerScalingFactor)
-    {
-        k = f;
-    }
-    GAPowerLawScaling(const GAPowerLawScaling & arg)
-    {
+class GAPowerLawScaling : public GAScalingScheme {
+  public:
+    GAPowerLawScaling(float f = gaDefPowerScalingFactor) { k = f; }
+    GAPowerLawScaling(const GAPowerLawScaling &arg) : GAScalingScheme(arg) {
         copy(arg);
     }
-    GAPowerLawScaling & operator=(const GAScalingScheme & arg)
-    {
+    GAPowerLawScaling &operator=(const GAScalingScheme &arg) {
         copy(arg);
-        return(*this);
+        return (*this);
     }
     virtual ~GAPowerLawScaling() {}
-    virtual GAScalingScheme * clone() const
-    {
+    virtual GAScalingScheme *clone() const {
         return new GAPowerLawScaling(*this);
     }
-    virtual void evaluate(const GAPopulation & p);
-    virtual void copy(const GAScalingScheme & arg)
-    {
-        if(&arg != this)
-        {
+    virtual void evaluate(const GAPopulation &p);
+    virtual void copy(const GAScalingScheme &arg) {
+        if (&arg != this) {
             GAScalingScheme::copy(arg);
-            k = (DYN_CAST(const GAPowerLawScaling&, arg)).k;
+            k = (DYN_CAST(const GAPowerLawScaling &, arg)).k;
         }
     }
 
-    float power(float p)
-    {
-        return k = p;
-    }
-    float power() const
-    {
-        return k;
-    }
+    float power(float p) { return k = p; }
+    float power() const { return k; }
 
-protected:
-    float k;			/// power scaling factor
+  protected:
+    float k; /// power scaling factor
 };
 #endif
-
-
 
 /** -------------------
 Sharing
@@ -294,89 +237,61 @@ then it bases its min/max on the sort order of the population.
 *** This should be called TriangularSharing rather than simply Sharing.
 */
 #if USE_SHARING == 1
-class GASharing : public GAScalingScheme
-{
-public:
-GASharing(GAGenome::Comparator func,
-              float cut = gaDefSharingCutoff, float a = 1.0)
-    {
+class GASharing : public GAScalingScheme {
+  public:
+    GASharing(GAGenome::Comparator func, float cut = gaDefSharingCutoff,
+              float a = 1.0) {
         N = 0;
-        d = (float*)0;
+        d = (float *)0;
         df = func;
         _sigma = cut;
         _alpha = a;
         _minmax = 0;
     }
-    GASharing(float cut = gaDefSharingCutoff, float a = 1.0)
-    {
+    GASharing(float cut = gaDefSharingCutoff, float a = 1.0) {
         N = 0;
-        d = (float*)0;
+        d = (float *)0;
         df = 0;
         _sigma = cut;
         _alpha = a;
         _minmax = 0;
     }
-    GASharing(const GASharing & arg)
-    {
+    GASharing(const GASharing &arg) : GAScalingScheme(arg) {
         N = 0;
-        d = (float*)0;
+        d = (float *)0;
         copy(arg);
     }
-    GASharing & operator=(const GAScalingScheme & arg)
-    {
+    GASharing &operator=(const GAScalingScheme &arg) {
         copy(arg);
-        return(*this);
+        return (*this);
     }
-    virtual ~GASharing()
-    {
-        delete [] d;
-    }
-    virtual GAScalingScheme * clone() const
-    {
-        return new GASharing(*this);
-    }
-    virtual void copy(const GAScalingScheme & arg);
-    virtual void evaluate(const GAPopulation & p);
+    virtual ~GASharing() { delete[] d; }
+    virtual GAScalingScheme *clone() const { return new GASharing(*this); }
+    virtual void copy(const GAScalingScheme &arg);
+    virtual void evaluate(const GAPopulation &p);
 
-    GAGenome::Comparator distanceFunction(GAGenome::Comparator f)
-    {
+    GAGenome::Comparator distanceFunction(GAGenome::Comparator f) {
         return df = f;
     }
-    GAGenome::Comparator distanceFunction() const
-    {
-        return df;
-    }
+    GAGenome::Comparator distanceFunction() const { return df; }
 
     float sigma(float);
-    float sigma() const
-    {
-        return _sigma;
-    }
+    float sigma() const { return _sigma; }
 
-    float alpha(float c)
-    {
-        return _alpha = c;
-    }
-    float alpha() const
-    {
-        return _alpha;
-    }
+    float alpha(float c) { return _alpha = c; }
+    float alpha() const { return _alpha; }
 
     int minimaxi(int i);
-    int minimaxi() const
-    {
-        return _minmax;
-    }
+    int minimaxi() const { return _minmax; }
 
-protected:
-    GAGenome::Comparator df;		/// the user-defined distance function
-    unsigned int N;			/// how many do we have? (n of n-by-n)
-    float *d;				/// the distances for each genome pair
-    float _sigma;				/// absolute cutoff from central point
-    float _alpha;				/// controls the curvature of sharing f
-    int _minmax;				/// should we minimize or maximize?
+  protected:
+    GAGenome::Comparator df; /// the user-defined distance function
+    unsigned int N;          /// how many do we have? (n of n-by-n)
+    float *d;                /// the distances for each genome pair
+    float _sigma;            /// absolute cutoff from central point
+    float _alpha;            /// controls the curvature of sharing f
+    int _minmax;             /// should we minimize or maximize?
 };
 #endif
-
 
 #endif

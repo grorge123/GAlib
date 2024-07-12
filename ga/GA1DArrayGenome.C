@@ -203,7 +203,8 @@ GA1DArrayAlleleGenome<T>::GA1DArrayAlleleGenome(unsigned int length,
     this->initializer(
         GA1DArrayAlleleGenome<T>::DEFAULT_1DARRAY_ALLELE_INITIALIZER);
     this->mutator(GA1DArrayAlleleGenome<T>::DEFAULT_1DARRAY_ALLELE_MUTATOR);
-    this->comparator(GA1DArrayAlleleGenome<T>::DEFAULT_1DARRAY_ALLELE_COMPARATOR);
+    this->comparator(
+        GA1DArrayAlleleGenome<T>::DEFAULT_1DARRAY_ALLELE_COMPARATOR);
     this->crossover(GA1DArrayAlleleGenome<T>::DEFAULT_1DARRAY_ALLELE_CROSSOVER);
 }
 
@@ -220,7 +221,8 @@ GA1DArrayAlleleGenome<T>::GA1DArrayAlleleGenome(const GAAlleleSetArray<T> &sa,
     this->initializer(
         GA1DArrayAlleleGenome<T>::DEFAULT_1DARRAY_ALLELE_INITIALIZER);
     this->mutator(GA1DArrayAlleleGenome<T>::DEFAULT_1DARRAY_ALLELE_MUTATOR);
-    this->comparator(GA1DArrayAlleleGenome<T>::DEFAULT_1DARRAY_ALLELE_COMPARATOR);
+    this->comparator(
+        GA1DArrayAlleleGenome<T>::DEFAULT_1DARRAY_ALLELE_COMPARATOR);
     this->crossover(GA1DArrayAlleleGenome<T>::DEFAULT_1DARRAY_ALLELE_CROSSOVER);
 }
 
@@ -340,7 +342,7 @@ template <class ARRAY_TYPE>
 int GA1DArrayAlleleGenome<ARRAY_TYPE>::FlipMutator(GAGenome &c, float pmut) {
     GA1DArrayAlleleGenome<ARRAY_TYPE> &child =
         DYN_CAST(GA1DArrayAlleleGenome<ARRAY_TYPE> &, c);
-    register int n, i;
+    int n, i;
     if (pmut <= 0.0) {
         return (0);
     }
@@ -370,7 +372,7 @@ template <class ARRAY_TYPE>
 int GA1DArrayGenome<ARRAY_TYPE>::SwapMutator(GAGenome &c, float pmut) {
     GA1DArrayGenome<ARRAY_TYPE> &child =
         DYN_CAST(GA1DArrayGenome<ARRAY_TYPE> &, c);
-    register int n, i;
+    int n, i;
     if (pmut <= 0.0) {
         return (0);
     }
