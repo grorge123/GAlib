@@ -22,7 +22,7 @@ typedef GA1DArrayAlleleGenome<char> GAStringGenome;
 /** in one (and only one) place in the code that uses the string genome, 
 you should define INSTANTIATE_STRING_GENOME in order to force the specialization for this genome. */
 #if defined(INSTANTIATE_STRING_GENOME)
-#include <ga/GAStringGenome.C>
+#include <ga/GAStringGenome.cpp>
 #endif
 
 inline void GAStringUniformInitializer(GAGenome& g)

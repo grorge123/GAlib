@@ -8,9 +8,9 @@
   Copyright (c) 1995 Massachusetts Institute of Technology, all rights reserved 
 */
 
-#include <stdio.h>
-#include <limits.h>
-#include <string.h>
+#include <cstdio>
+#include <climits>
+#include <cstring>
 #include <ga/gaconfig.h>
 #include <ga/gaerror.h>
 #include <ga/gabincvt.h>

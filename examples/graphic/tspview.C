@@ -4,8 +4,8 @@
   @date 17-Jan-1996
 */
  
-#include <stdio.h>
-#include <math.h>
+#include <cstdio>
+#include <cmath>
 #include <values.h>
 #include <ga/ga.h>
 #include <ga/std_stream.h>
@@ -689,8 +689,8 @@ GAListGenome<int>::write(ostream & os) const
 // If your compiler does not do automatic instantiation (e.g. g++ 2.6.8),
 // then define the NO_AUTO_INST directive.
 #ifdef NO_AUTO_INST
-#include <ga/GAList.C>
-#include <ga/GAListGenome.C>
+#include <ga/GAList.cpp>
+#include <ga/GAListGenome.cpp>
 template class GAList<int>;
 template class GAListGenome<int>;
 #endif

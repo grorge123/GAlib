@@ -8,9 +8,9 @@
   Copyright (c) 1995 Massachusetts Institute of Technology
 */
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
 #include <ga/gaerror.h>
 #include <ga/GABinStr.h>
 

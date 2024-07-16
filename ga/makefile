@@ -8,8 +8,8 @@ include makefile.sources
 
 INC_DIRS= -I..
 
-.SUFFIXES: .C
-.C.o:
+.SUFFIXES: .cpp
+.cpp.o:
 	$(CXX) $(CXXFLAGS) $(INC_DIRS) -c $<
 
 $(LIB): $(OBJS) 
@@ -18,7 +18,7 @@ $(LIB): $(OBJS)
 	$(RANLIB) $(LIB)
 	echo "$(CXX) $(CXXFLAGS)" > BUILD
 	@echo $(LIB) is now up-to-date
-.C.a:;
+.cpp.a:;
 
 clean:
 	$(RM) $(LIB) BUILD

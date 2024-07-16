@@ -14,9 +14,9 @@
 #include <ga/GA3DArrayGenome.h>
 #include <ga/GAMask.h>
 #include <ga/garandom.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
 
 /**
 3DArrayGenome

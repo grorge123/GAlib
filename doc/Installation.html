@@ -89,7 +89,7 @@ In file included from ../ga/genome.h:33,
 ../ga/objective.h:68: warning: ANSI C++ forbids implicit conversion from `void *' in assignment
 ../ga/objective.h:68: warning: implicit declaration of function `int memset(...)"
        </pre></code></blockquote>
-This seems to be due to an error in the string.h header file in the gnu installation, <i>not</i> a problem in galib.  Evidently some versions of g++ have an incomplete string.h in the lib/g++-include directory.  Try using the -I compiler flag to force g++ to use a valid string.h (or update your gnu installation to replace the bogus string.h file).
+This seems to be due to an error in the cstring header file in the gnu installation, <i>not</i> a problem in galib.  Evidently some versions of g++ have an incomplete cstring in the lib/g++-include directory.  Try using the -I compiler flag to force g++ to use a valid cstring (or update your gnu installation to replace the bogus cstring file).
 </p>
 
 

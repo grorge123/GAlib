@@ -8,7 +8,7 @@
   Copyright (c) 1995-1996 Massachusetts Institute of Technology, all rights reserved.
 
  */
-#include <string.h>
+#include <cstring>
 #include <ga/garandom.h>
 #include "PVMDemeGA.h"
 #include "genome.h"

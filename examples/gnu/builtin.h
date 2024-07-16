@@ -30,7 +30,7 @@ Foundation, 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 #include <stddef.h>
 #include <std.h>
-#include <math.h>
+#include <cmath>
 
 #ifdef __GNUG__
 #define _VOLATILE_VOID volatile void
@@ -66,7 +66,7 @@ extern two_arg_error_handler_t
 
 #if !defined(IV)
 
-#if ! _G_MATH_H_INLINES /* hpux and SCO define this in math.h */
+#if ! _G_MATH_H_INLINES /* hpux and SCO define this in cmath */
 inline double abs(double arg) 
 {
   return (arg < 0.0)? -arg : arg;
@@ -103,7 +103,7 @@ inline long sqr(long arg)
   return arg * arg;
 }
 
-#if ! _G_MATH_H_INLINES /* hpux and SCO define this in math.h */
+#if ! _G_MATH_H_INLINES /* hpux and SCO define this in cmath */
 inline double sqr(double arg)
 {
   return arg * arg;

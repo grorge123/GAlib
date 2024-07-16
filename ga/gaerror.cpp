@@ -8,9 +8,9 @@
   Copyright (c) 1995 Massachusetts Institute of Technology, all rights reserved
 */
 
-#include <string.h>
+#include <cstring>
 #include <ga/gaerror.h>
-#include <stdio.h>
+#include <cstdio>
 
 char gaErrMsg[512];
 char _gaerrbuf1[120];

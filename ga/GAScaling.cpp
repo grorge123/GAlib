@@ -15,7 +15,7 @@ to do our evaluations.  We don't need to do this so long as the population
 objects that call us do the test themselves.  I'll leave the redundancy for now.
 */
 
-#include <math.h>
+#include <cmath>
 #include <ga/gaerror.h>
 #include <ga/GAScaling.h>
 #include <ga/GAGenome.h>

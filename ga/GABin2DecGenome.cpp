@@ -13,10 +13,10 @@ number of bits that can represent a float - see the converters file for more
 information).
 */
 
-#include <stdio.h>
-#include <stdlib.h>
+#include <cstdio>
+#include <cstdlib>
 #include <ctype.h>
-#include <string.h>
+#include <cstring>
 #include <ga/gaerror.h>
 #include <ga/GABin2DecGenome.h>
 

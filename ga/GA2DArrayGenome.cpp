@@ -13,9 +13,9 @@
 #include <ga/GA2DArrayGenome.h>
 #include <ga/GAMask.h>
 #include <ga/garandom.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
 
 template <class T>
 GA2DArrayGenome<T>::GA2DArrayGenome(unsigned int width, unsigned int height,

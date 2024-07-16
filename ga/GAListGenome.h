@@ -85,7 +85,7 @@ public:
 };
 
 #ifdef GALIB_USE_BORLAND_INST
-#include <ga/GAListGenome.C>
+#include <ga/GAListGenome.cpp>
 #endif
 
 #endif

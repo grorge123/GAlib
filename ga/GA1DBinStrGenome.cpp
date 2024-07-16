@@ -8,10 +8,10 @@
   Copyright (c) 1995 Massachusetts Institute of Technology, all rights reserved.
 */
 
-#include <stdio.h>
-#include <stdlib.h>
+#include <cstdio>
+#include <cstdlib>
 #include <ctype.h>
-#include <string.h>
+#include <cstring>
 #include <ga/gaerror.h>
 #include <ga/garandom.h>
 #include <ga/GA1DBinStrGenome.h>

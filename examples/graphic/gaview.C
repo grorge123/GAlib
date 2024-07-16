@@ -18,8 +18,8 @@ files and understands the usual GAlib command-line options.
 depending on which you have on your system.
 */
  
-#include <stdio.h>
-#include <math.h>
+#include <cstdio>
+#include <cmath>
 #include <ga/ga.h>
 #include <ga/std_stream.h>
 

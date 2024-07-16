@@ -24,7 +24,7 @@ Foundation, 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 #define _BitString_h 1
 
 #include <stream.h>
-#include <limits.h>
+#include <climits>
 
 #undef OK
 

@@ -1,10 +1,11 @@
-/** 
-    @file ga.h 
+/**
+    @file ga.h
 
-    @author Matthew Wall  
-	@date 28-Jul-1994
+    @author Matthew Wall
+        @date 28-Jul-1994
 
-	Copyright (c) 1995-1996 Massachusetts Institute of Technology, all rights reserved
+        Copyright (c) 1995-1996 Massachusetts Institute of Technology, all
+rights reserved
 
   Main header for the GAlibrary.  This header is provided to make it easy to
 include GAlib components in your code.  It includes all of the genetic
@@ -15,7 +16,8 @@ comments giving an overview of the library).
 references to 'Numerical Recipes' are to the Numerical Recipes in C book.
 
 "Genetic Algorithms in Search, Optimization, and Machine Learning"
-    Goldberg, David Edward, 1953-, Addison-Wesley Pub. Co., (c) 1989, ISBN 0-201-15767-5
+    Goldberg, David Edward, 1953-, Addison-Wesley Pub. Co., (c) 1989, ISBN
+0-201-15767-5
 
 "Numerical Recipes in C:  The Art of Scientific Computing"
     Cambridge University Press, (c) 1988-1992, ISBN 0-521-43108-5
@@ -32,7 +34,7 @@ Here are the library capabilities and which parts of the library are involved:
   'steady-state' genetic algorithm, the 'incremental' genetic algorithm based
   on the Genitor model, and the 'parallel' genetic algorithm that uses multiple
   populations in parallel on a single CPU.
-   
+
    The base GA object defines many of the parameters and statistics useful
   when running an experiment.  It also defines the basic interface for most
   genetic algorithms.
@@ -160,15 +162,16 @@ one copy of the genome type you want to use.
 #ifndef _ga_ga_h_
 #define _ga_ga_h_
 
-// Make sure that we get the configuration into each of the galib components that will be used.
+// Make sure that we get the configuration into each of the galib components
+// that will be used.
 #include <ga/gaconfig.h>
 
 // These are the headers for all of the genetic algorithm classes.
-#include <ga/GASimpleGA.h>
-#include <ga/GASStateGA.h>
-#include <ga/GAIncGA.h>
-#include <ga/GADemeGA.h>
 #include <ga/GADCrowdingGA.h>
+#include <ga/GADemeGA.h>
+#include <ga/GAIncGA.h>
+#include <ga/GASStateGA.h>
+#include <ga/GASimpleGA.h>
 
 // Here we include the headers for all of the various genome types.
 #include <ga/GA1DBinStrGenome.h>
@@ -183,10 +186,11 @@ one copy of the genome type you want to use.
 #include <ga/GAListGenome.h>
 #include <ga/GATreeGenome.h>
 
-/// We do *not* include the headers for template specializations.  
-/// This prevents unnecessary instantiations of template objects which causes grief to some compilers.
-///#include <ga/GAStringGenome.h>
-///#include <ga/GARealGenome.h>
+/// We do *not* include the headers for template specializations.
+/// This prevents unnecessary instantiations of template objects which causes
+/// grief to some compilers.
+/// #include <ga/GAStringGenome.h>
+/// #include <ga/GARealGenome.h>
 #endif
 
 #endif

@@ -199,7 +199,7 @@ protected:
 
 
 #ifdef GALIB_USE_BORLAND_INST
-#include <ga/GA3DArrayGenome.C>
+#include <ga/GA3DArrayGenome.cpp>
 #endif
 
 #endif

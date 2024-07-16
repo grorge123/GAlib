@@ -22,9 +22,9 @@ Foundation, 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 #ifdef __GNUG__
 #pragma implementation
 #endif
-#include <BitString.h>
+#include <Bitcstring>
 #include <std.h>
-#include <limits.h>
+#include <climits>
 #include <Obstack.h>
 #include <AllocRing.h>
 #include <new.h>

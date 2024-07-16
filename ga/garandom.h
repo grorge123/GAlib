@@ -49,7 +49,7 @@ then these functions scale the distribution to that deviation.  Mean is still 0
 #ifndef _ga_random_h_
 #define _ga_random_h_
 
-#include <stdlib.h>
+#include <cstdlib>
 #include <ga/gatypes.h>
 #include <ga/gaconfig.h>
 
@@ -136,8 +136,8 @@ inline float GARandomFloat(float low, float high)
 #error  Be sure that your system generator works properly, then comment
 #error  these lines to go ahead and do your compilation.
 
-#include <math.h>
-#include <limits.h>
+#include <cmath>
+#include <climits>
 
 #if defined(GALIB_USE_RANDOM)
 

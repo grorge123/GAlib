@@ -9,9 +9,9 @@
 */
 
 #include <ga/garandom.h>
-#include <time.h>
-#include <math.h>
-#include <string.h>
+#include <ctime>
+#include <cmath>
+#include <cstring>
 
 static void bitseed(unsigned int seed = 1);
 

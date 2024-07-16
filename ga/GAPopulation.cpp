@@ -6,8 +6,8 @@
   
   Copyright (c) 1995 Massachusetts Institute of Technology, all rights reserved
 */
-#include <string.h>
-#include <math.h>
+#include <cstring>
+#include <cmath>
 #include <ga/GAPopulation.h>
 #include <ga/GASelector.h>
 #include <ga/garandom.h>

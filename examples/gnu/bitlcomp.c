@@ -24,7 +24,7 @@ the executable file might be covered by the GNU General Public License. */
 /*  Written by Per Bothner (bothner@cygnus.com) */
 
 #include "bitprims.h"
-#include <stdlib.h>
+#include <cstdlib>
 
 /* Return -1, 0, 1 depending on whether (ptr0, len0) is
    lexicographically less than, equal, or greater than (ptr1, len1).

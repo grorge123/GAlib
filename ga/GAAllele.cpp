@@ -11,7 +11,7 @@
 #ifndef _ga_allele_C_
 #define _ga_allele_C_
 
-#include <string.h>
+#include <cstring>
 #include <ga/GAAllele.h>
 #include <ga/gaerror.h>
 

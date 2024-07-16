@@ -28,7 +28,7 @@ int GARealGaussianMutator(GAGenome &, float);
 /// should define INSTANTIATE_STRING_GENOME in order to force the specialization
 /// for this genome.
 #if defined(INSTANTIATE_REAL_GENOME)
-#include <ga/GARealGenome.C>
+#include <ga/GARealGenome.cpp>
 #endif
 
 inline void GARealUniformInitializer(GAGenome& g)

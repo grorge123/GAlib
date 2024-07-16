@@ -12,7 +12,7 @@ In this case, the master controls the evolution by specifying migrations between
 on various processes.
 */
 
-#include <stdio.h>
+#include <cstdio>
 #include <iostream.h>
 #include "PVMDemeGA.h"
 #include "genome.h"

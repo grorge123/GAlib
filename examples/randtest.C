@@ -7,8 +7,8 @@
   
   Copyright (c) 1998 Matthew Wall, all rights reserved
 */
-#include <string.h>
-#include <math.h>
+#include <cstring>
+#include <cmath>
 #include <iostream>
 #include <fstream>
 #include <ga/garandom.h>

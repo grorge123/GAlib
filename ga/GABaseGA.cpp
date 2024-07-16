@@ -8,8 +8,8 @@
   Copyright (c) 1995 Massachusetts Institute of Technology, all rights reserved
 */
 
-#include <stdio.h>
-#include <string.h>
+#include <cstdio>
+#include <cstring>
 #include <ga/GABaseGA.h>
 #include <ga/garandom.h>
 #include <ga/gaversion.h>	/// gets the RCS string in for ident purposes

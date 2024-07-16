@@ -10,10 +10,10 @@
   See the 1D genome for comments.
 */
 
-#include <stdio.h>
-#include <stdlib.h>
+#include <cstdio>
+#include <cstdlib>
 #include <ctype.h>
-#include <string.h>
+#include <cstring>
 #include <ga/gaerror.h>
 #include <ga/garandom.h>
 #include <ga/GA2DBinStrGenome.h>

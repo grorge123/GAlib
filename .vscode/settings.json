@@ -1,0 +1,17 @@
+{
+	"files.associations": {
+		"GA2DArrayGenome.C": "cpp",
+		"GABinStr.C": "cpp",
+		"ex3.C": "cpp",
+		"gabincvt.C": "cpp",
+		"master.C": "cpp",
+		"ex10.C": "cpp",
+		"tspview.C": "cpp",
+		"PVMDemeGA.C": "cpp",
+		"ex11.C": "cpp",
+		"GAStringGenome.C": "cpp",
+		"ex27.C": "cpp",
+		"ex8.C": "cpp",
+		"ex14.C": "cpp"
+	}
+}
